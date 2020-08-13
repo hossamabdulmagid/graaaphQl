@@ -7,7 +7,7 @@ import { CircularProgress } from '@material-ui/core';
 
 const GET_POKEMON_INFO = gql`
 {
-    pokemons(first: 150) {
+    pokemons(first: 250) {
       id
       number
       name,
@@ -23,12 +23,15 @@ const GET_POKEMON_INFO = gql`
 
 
 const App = () => {
+
   const { data, loading, error } = useQuery(GET_POKEMON_INFO);
 
   if (loading) return <div className="App"> <CircularProgress color="primary" /></div>
 
 
-  if (error) return <p>Error</p>;
+  if (error) return <div className="App"><p>Error</p></div>
+
+
   return (
     <React.Fragment>
       <div className="App">
@@ -51,20 +54,22 @@ const App = () => {
               data.pokemons &&
               data.pokemons.map((pokemon, index) => (
                 <div key={index} className="card">
-                  <img src={pokemon.image} />
-                  <div class="card-body">
+                  <img src={pokemon.image} alt="" />
+                  <div className="card-body">
                     <h3>{pokemon.name}</h3>
-                    <p>
+                    <div>
                       {pokemon.evolutions && pokemon.evolutions.length !== 0 && (
-                        <p>
-                          {" "}
+                        <>
+                          <div>
+                            {" "}
                       Evolutions:
                           {pokemon.evolutions.map((e, indx) => {
-                            return <p key={indx}> {e.name} </p>;
-                          })}
-                        </p>
+                              return <p key={indx}> {e.name} </p>;
+                            })}
+                          </div>
+                        </>
                       )}
-                    </p>
+                    </div>
                   </div>
                 </div>
               ))}

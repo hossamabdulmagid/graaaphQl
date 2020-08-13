@@ -19,6 +19,10 @@ const client = new ApolloClient({
   link
 })
 
-ReactDOM.render(<ApolloProvider client={client}><App /></ApolloProvider>, document.getElementById('root'));
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>
+  , document.getElementById('root'));
 
 serviceWorker.unregister();
