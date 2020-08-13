@@ -3,6 +3,7 @@ import './App.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from "graphql-tag";
 
+import { CircularProgress } from '@material-ui/core';
 
 const GET_POKEMON_INFO = gql`
 {
@@ -24,18 +25,20 @@ const GET_POKEMON_INFO = gql`
 const App = () => {
   const { data, loading, error } = useQuery(GET_POKEMON_INFO);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="App"> <CircularProgress color="primary" /></div>
+
+
   if (error) return <p>Error</p>;
   return (
     <React.Fragment>
       <div className="App">
-      <header className="App_header">
-        <h1>Pokémons</h1>
+        <header className="App_header">
+          <h1>Pokémons</h1>
 
-        <p>
-          <a href="https://en.wikipedia.org/wiki/List_of_Pok%C3%A9mon">
-            The Pokémon franchise
-        </a>{" "} <br/>
+          <p>
+            <a href="https://en.wikipedia.org/wiki/List_of_Pok%C3%A9mon">
+              The Pokémon franchise
+        </a>{" "} <br />
         revolves around 832 fictional species of collectible monsters, each having
         unique designs and skills. Conceived by Satoshi Tajiri in early 1989,
         Pokémon are creatures that inhabit the fictional Pokémon World. This is
@@ -43,30 +46,30 @@ const App = () => {
         starting with Bulbasaur in the top left corner and ending with Mewtwo in
         the bottom right corner.
       </p>
-        <div className="container">
-          {data &&
-            data.pokemons &&
-            data.pokemons.map((pokemon, index) => (
-              <div key={index} className="card">
-                <img src={pokemon.image} />
-                <div class="card-body">
-                  <h3>{pokemon.name}</h3>
-                  <p>
-                    {pokemon.evolutions && pokemon.evolutions.length !== 0 && (
-                      <p>
-                        {" "}
+          <div className="container">
+            {data &&
+              data.pokemons &&
+              data.pokemons.map((pokemon, index) => (
+                <div key={index} className="card">
+                  <img src={pokemon.image} />
+                  <div class="card-body">
+                    <h3>{pokemon.name}</h3>
+                    <p>
+                      {pokemon.evolutions && pokemon.evolutions.length !== 0 && (
+                        <p>
+                          {" "}
                       Evolutions:
-                        {pokemon.evolutions.map((e, indx) => {
-                          return <p key={indx}> {e.name} </p>;
-                        })}
-                      </p>
-                    )}
-                  </p>
+                          {pokemon.evolutions.map((e, indx) => {
+                            return <p key={indx}> {e.name} </p>;
+                          })}
+                        </p>
+                      )}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-        </div>
-      </header>
+              ))}
+          </div>
+        </header>
       </div>
     </React.Fragment>
   );
